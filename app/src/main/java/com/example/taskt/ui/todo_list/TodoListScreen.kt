@@ -42,6 +42,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import com.example.taskt.data.Todo
 import com.example.taskt.ui.theme.Blue900
 
 class TodoGroup (
@@ -220,11 +221,6 @@ fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
         }
     }
 }
-class Todo (
-    val title: String,
-    val done: Boolean = false,
-    val description: String,
-)
 
 @Composable
 fun AddTodoButton(onClick: () -> Unit) {
