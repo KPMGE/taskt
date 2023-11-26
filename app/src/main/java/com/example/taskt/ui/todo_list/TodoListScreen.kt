@@ -1,6 +1,5 @@
 package com.example.taskt.ui.todo_list
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -20,7 +19,6 @@ import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -33,13 +31,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.taskt.data.Todo
@@ -177,25 +173,6 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
 }
 
 @Composable
-fun TodosList(todos: List<Todo>, modifier: Modifier = Modifier) {
-    LazyColumn(
-        modifier = Modifier
-            .padding(10.dp)
-            .then(modifier)
-    ) {
-        itemsIndexed(todos) { idx, todo ->
-            TodoCard(Todo(todo.title, false, "ksdjfa"))
-            Divider(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(1.dp),
-                color = Color.LightGray
-            )
-        }
-    }
-}
-
-@Composable
 fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
     LazyColumn (
         modifier = Modifier
@@ -221,7 +198,6 @@ fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
         }
     }
 }
-
 @Composable
 fun AddTodoButton(onClick: () -> Unit) {
     FloatingActionButton(
