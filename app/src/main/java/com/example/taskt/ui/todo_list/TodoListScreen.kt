@@ -30,6 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,8 +39,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.Todo
 import com.example.taskt.ui.theme.Blue900
+
 
 class TodoGroup (
     val title: String,
@@ -49,13 +52,10 @@ class TodoGroup (
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-fun TodoListScreen() {
-    var todos =  remember { mutableStateListOf<Todo>(
-        Todo("Task 1", false, "desc 1"),
-        Todo("Task 2", false, "desc 2"),
-        Todo("Task 3", false, "desc 3"),
-        Todo("Task 4", false, "desc 4")
-    ) }
+fun TodoListScreen(
+    todosListViewModel: TodoListViewModel = viewModel()
+) {
+    var todos = todosListViewModel.todos.observeAsState().value!!
 
     var todoGroups = remember { mutableStateListOf<TodoGroup>(
         TodoGroup("Group 1", Color.Magenta, todos),
@@ -70,7 +70,7 @@ fun TodoListScreen() {
     ) }
 
     fun addTodo() {
-        todos.add(Todo("New Task", false, "New des"))
+        //todos.add(Todo("New Task", false, "New des"))
     }
 
     Scaffold (
@@ -99,7 +99,7 @@ fun TodoListScreen() {
                 modifier = Modifier.size(height = 5.dp, width = 0.dp)
             )
             TodoGroupList(todoGroups = todoGroups, modifier = Modifier.weight(0.4f))
-            AddTodoOrGroupModal(onDismissRequest = {})
+            // AddTodoOrGroupModal(onDismissRequest = {})
         }
     }
 }
@@ -118,7 +118,8 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
                 .fillMaxSize()
                 .offset(
                     x = marginLeft.dp,
-                    y = (screenHeight - (cardHeight + marginBottom)).dp)
+                    y = (screenHeight - (cardHeight + marginBottom)).dp
+                )
         ) {
             Card(
                 modifier = Modifier
