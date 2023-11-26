@@ -86,7 +86,9 @@ fun TodoListScreen(
             )
         },
         floatingActionButton = {
-            AddTodoButton(onClick = { addTodo() })
+            AddTodoButton(onClick = {
+                todosListViewModel.addTodo(Todo("TEST", false, "kjsdfas"))
+            })
         }
     ) { innerPadding ->
         Column (

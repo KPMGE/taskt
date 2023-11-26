@@ -7,11 +7,17 @@ import com.example.taskt.data.Todo
 
 class TodoListViewModel(): ViewModel() {
     var todos = MutableLiveData<List<Todo>>(
-        mutableListOf(
+        listOf(
             Todo("Task 1", false, "desc 1"),
             Todo("Task 2", false, "desc 2"),
             Todo("Task 3", false, "desc 3"),
             Todo("Task 4", false, "desc 4")
         )
     )
+
+    fun addTodo(newTodo: Todo) {
+        var current = todos.value.orEmpty().toMutableList()
+        current.add(newTodo)
+        todos.value = current
+    }
 }
