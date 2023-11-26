@@ -1,5 +1,6 @@
 package com.example.taskt.ui.todo_list
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,7 +38,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.Todo
@@ -99,6 +103,13 @@ fun TodoListScreen(
             TodosList(todos = todos, modifier = Modifier.weight(0.6f))
             Divider(
                 modifier = Modifier.size(height = 5.dp, width = 0.dp)
+            )
+            Text(
+                text = "Groups",
+                fontSize = 24.sp,
+                modifier = Modifier.padding(start = 27.dp),
+                fontWeight = FontWeight.Bold,
+                color = Color.DarkGray
             )
             TodoGroupList(todoGroups = todoGroups, modifier = Modifier.weight(0.4f))
             // AddTodoOrGroupModal(onDismissRequest = {})
