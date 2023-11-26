@@ -33,6 +33,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,6 +44,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.Todo
 import com.example.taskt.ui.theme.Blue900
@@ -60,6 +62,15 @@ fun TodoListScreen(
     todosListViewModel: TodoListViewModel = viewModel()
 ) {
     var todos = todosListViewModel.todos.observeAsState().value!!
+    var shouldOpenCreateModal = remember { mutableStateOf(false) }
+
+    fun openCreateTodoModal() {
+        shouldOpenCreateModal.value = true
+    }
+
+    fun closeCreateTodoModal() {
+        shouldOpenCreateModal.value = false
+    }
 
     var todoGroups = remember { mutableStateListOf<TodoGroup>(
         TodoGroup("Group 1", Color.Magenta, todos),
@@ -72,10 +83,6 @@ fun TodoListScreen(
         TodoGroup("Group 3", Color.Green, todos),
         TodoGroup("Group 3", Color.Green, todos),
     ) }
-
-    fun addTodo() {
-        //todos.add(Todo("New Task", false, "New des"))
-    }
 
     Scaffold (
         topBar = {
@@ -90,9 +97,7 @@ fun TodoListScreen(
             )
         },
         floatingActionButton = {
-            AddTodoButton(onClick = {
-                todosListViewModel.addTodo(Todo("TEST", false, "kjsdfas"))
-            })
+            AddTodoButton(onClick = { openCreateTodoModal() })
         }
     ) { innerPadding ->
         Column (
@@ -112,7 +117,9 @@ fun TodoListScreen(
                 color = Color.DarkGray
             )
             TodoGroupList(todoGroups = todoGroups, modifier = Modifier.weight(0.4f))
-            // AddTodoOrGroupModal(onDismissRequest = {})
+            if (shouldOpenCreateModal.value) {
+                AddTodoOrGroupModal(onDismissRequest = { closeCreateTodoModal() })
+            }
         }
     }
 }
@@ -125,7 +132,10 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
     val marginBottom = 100
     val marginLeft = 50
 
-    Dialog(onDismissRequest = { onDismissRequest() }) {
+    Dialog(
+        onDismissRequest = { onDismissRequest() },
+        properties = DialogProperties(dismissOnBackPress = true, dismissOnClickOutside = true)
+    ) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
