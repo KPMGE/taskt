@@ -183,9 +183,7 @@ fun TodosList(todos: List<Todo>, modifier: Modifier = Modifier) {
             .then(modifier)
     ) {
         itemsIndexed(todos) { idx, todo ->
-            TodoCard(
-                todo = Todo(todo.title, false, "ksdjfa"),
-                color = Color.Red)
+            TodoCard(Todo(todo.title, false, "ksdjfa"))
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -227,33 +225,6 @@ class Todo (
     val done: Boolean = false,
     val description: String,
 )
-@Composable
-fun TodoCard(todo: Todo, color: Color) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(10.dp)
-
-    ) {
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            var checked = remember { mutableStateOf(false) }
-
-            Checkbox(
-                checked = checked.value,
-                onCheckedChange = { checked.value = it }
-            )
-            Text(
-                text = todo.title,
-                textAlign = TextAlign.Center,
-                color = Color.DarkGray
-            )
-        }
-    }
-}
 
 @Composable
 fun AddTodoButton(onClick: () -> Unit) {
