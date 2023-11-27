@@ -1,7 +1,6 @@
 package com.example.taskt.ui
 
 import com.example.taskt.ui.todo_list.TodoListViewModel
-import com.example.taskt.ui.todo_list.TodosList
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -30,7 +29,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -43,18 +41,22 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.theme.Blue900
 import com.example.taskt.ui.todo_group.TodoGroupList
 import com.example.taskt.ui.todo_group.TodoGroupViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+
+import androidx.compose.runtime.collectAsState
+import com.example.taskt.data.Todo
+import com.example.taskt.ui.todo_list.TodosList
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
-    todosListViewModel: TodoListViewModel = viewModel(),
+    todosListViewModel: TodoListViewModel = hiltViewModel(),
     todoGroupsViewModel: TodoGroupViewModel = viewModel()
 ) {
-    var todos = todosListViewModel.todos.observeAsState().value!!
+    val todos = todosListViewModel.todos.collectAsState(initial = emptyList())
     var todoGroups = todoGroupsViewModel.todoGroups.observeAsState().value!!
 
     var shouldOpenCreateModal = remember { mutableStateOf(false) }
@@ -80,7 +82,10 @@ fun HomeScreen(
             )
         },
         floatingActionButton = {
-            AddTodoButton(onClick = { openCreateTodoModal() })
+            AddTodoButton(onClick = {
+                openCreateTodoModal()
+                todosListViewModel.addTodo(Todo("TESTE TODO", false, "sdkjfa"))
+            })
         }
     ) { innerPadding ->
         Column (
@@ -88,7 +93,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            TodosList(todos = todos, modifier = Modifier.weight(0.6f))
+            TodosList(todos = todos.value, modifier = Modifier.weight(0.6f))
             Divider(
                 modifier = Modifier.size(height = 5.dp, width = 0.dp)
             )

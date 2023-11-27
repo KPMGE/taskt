@@ -1,21 +1,27 @@
 package com.example.taskt.ui.todo_list
-import androidx.lifecycle.MutableLiveData
+
 import androidx.lifecycle.ViewModel
 import com.example.taskt.data.Todo
+import com.example.taskt.data.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TodoListViewModel(): ViewModel() {
-    var todos = MutableLiveData<List<Todo>>(
-        listOf(
-            Todo("Task 1", false, "desc 1"),
-            Todo("Task 2", false, "desc 2"),
-            Todo("Task 3", false, "desc 3"),
-            Todo("Task 4", false, "desc 4")
-        )
-    )
+@HiltViewModel
+class TodoListViewModel @Inject constructor(
+    private val todoRepository: TodoRepository
+): ViewModel() {
+    var todos = this.todoRepository.getTodos()
 
+    /*
+    init {
+        viewModelScope.launch {
+            val todos = todoRepository.getTodos()
+            this@TodoListViewModel.todos.value = todos
+            this@TodoListViewModel.todos2
+        }
+    }
+    */
     fun addTodo(newTodo: Todo) {
-        var current = todos.value.orEmpty().toMutableList()
-        current.add(newTodo)
-        todos.value = current
+        this.todoRepository.addTodo(newTodo)
     }
 }
