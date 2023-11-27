@@ -19,9 +19,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.List
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
-import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -40,22 +38,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.Todo
+import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.theme.Blue900
 import com.example.taskt.ui.todo_group.TodoGroupList
 
-
-class TodoGroup (
-    val title: String,
-    val color: Color,
-    val todos: List<Todo>,
-)
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
