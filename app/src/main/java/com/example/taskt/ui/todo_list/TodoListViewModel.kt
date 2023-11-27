@@ -1,6 +1,4 @@
 package com.example.taskt.ui.todo_list
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.taskt.data.Todo

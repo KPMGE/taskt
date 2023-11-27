@@ -46,12 +46,17 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.theme.Blue900
 import com.example.taskt.ui.todo_group.TodoGroupList
+import com.example.taskt.ui.todo_group.TodoGroupViewModel
+
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
-    todosListViewModel: TodoListViewModel = viewModel()
+    todosListViewModel: TodoListViewModel = viewModel(),
+    todoGroupsViewModel: TodoGroupViewModel = viewModel()
 ) {
     var todos = todosListViewModel.todos.observeAsState().value!!
+    var todoGroups = todoGroupsViewModel.todoGroups.observeAsState().value!!
+
     var shouldOpenCreateModal = remember { mutableStateOf(false) }
 
     fun openCreateTodoModal() {
@@ -61,18 +66,6 @@ fun HomeScreen(
     fun closeCreateTodoModal() {
         shouldOpenCreateModal.value = false
     }
-
-    var todoGroups = remember { mutableStateListOf<TodoGroup>(
-        TodoGroup("Group 1", Color.Magenta, todos),
-        TodoGroup("Group 2", Color.Blue, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-        TodoGroup("Group 3", Color.Green, todos),
-    ) }
 
     Scaffold (
         topBar = {
@@ -113,7 +106,6 @@ fun HomeScreen(
         }
     }
 }
-
 @Composable
 fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
     val configuration = LocalConfiguration.current
