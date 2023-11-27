@@ -48,6 +48,7 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.data.Todo
 import com.example.taskt.ui.theme.Blue900
+import com.example.taskt.ui.todo_group.TodoGroupList
 
 
 class TodoGroup (
@@ -191,33 +192,6 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
                         )
                     }
                 }
-            }
-        }
-    }
-}
-
-@Composable
-fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
-    LazyColumn (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(start = 25.dp, top = 5.dp, bottom = 5.dp)
-            .then(modifier)
-    ) {
-        itemsIndexed(todoGroups) { idx, group ->
-            ElevatedCard(
-                colors = CardDefaults.cardColors(
-                    containerColor = group.color
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 4.dp, vertical = 5.dp)
-            ) {
-                Text(
-                    modifier = Modifier.padding(15.dp),
-                    text = group.title,
-                    color = Color.White
-                )
             }
         }
     }
