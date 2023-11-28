@@ -56,7 +56,7 @@ fun HomeScreen(
     todosListViewModel: TodoListViewModel = hiltViewModel(),
     todoGroupsViewModel: TodoGroupViewModel = viewModel()
 ) {
-    val todos = todosListViewModel.todos.collectAsState(initial = emptyList())
+    val todos = todosListViewModel.todos.observeAsState().value!!
     var todoGroups = todoGroupsViewModel.todoGroups.observeAsState().value!!
 
     var shouldOpenCreateModal = remember { mutableStateOf(false) }
@@ -84,7 +84,7 @@ fun HomeScreen(
         floatingActionButton = {
             AddTodoButton(onClick = {
                 openCreateTodoModal()
-                todosListViewModel.addTodo(Todo("TESTE TODO", false, "sdkjfa"))
+                todosListViewModel.addTodo(Todo(1, "TESTE TODO", false, "sdkjfa"))
             })
         }
     ) { innerPadding ->
@@ -93,7 +93,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            TodosList(todos = todos.value, modifier = Modifier.weight(0.6f))
+            TodosList(todos = todos, modifier = Modifier.weight(0.6f))
             Divider(
                 modifier = Modifier.size(height = 5.dp, width = 0.dp)
             )

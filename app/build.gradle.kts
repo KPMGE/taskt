@@ -4,6 +4,8 @@ plugins {
 
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
+
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.8.21"
 }
 
 kapt {
@@ -60,18 +62,24 @@ android {
 }
 
 dependencies {
+    //Ktor Dependencies
+    val ktor_version = "2.3.0"
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("io.ktor:ktor-client-android:$ktor_version")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
+
     //Dagger - Hilt
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
 
-    // implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0-beta01")
 
     // Compose dependencies
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.0")
     implementation("androidx.navigation:navigation-compose:2.4.0-rc01")
-
 
     val lifecycle_version = "2.6.2"
     val arch_version = "2.2.0"
