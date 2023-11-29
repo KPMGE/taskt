@@ -20,7 +20,15 @@ fun TodosList(todos: List<Todo>, modifier: Modifier = Modifier) {
             .then(modifier)
     ) {
         itemsIndexed(todos) { idx, todo ->
-            TodoCard(Todo(1, todo.title, false, "ksdjfa", todo.hexColor))
+            TodoCard(
+                Todo(
+                    todo.id,
+                    todo.title,
+                    todo.done,
+                    todo.description,
+                    todo.hexColor
+                )
+            )
             Divider(
                 modifier = Modifier
                     .fillMaxWidth()

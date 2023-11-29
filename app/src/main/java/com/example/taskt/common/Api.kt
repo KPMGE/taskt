@@ -16,8 +16,8 @@ import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 
 object ApiRoutes {
-    private const val BASE_URL:String = "http://10.0.2.2:3000"
-    val ALL_TODOS = "$BASE_URL/todos.json"
+    private const val BASE_URL:String = "http://10.0.2.2:8080"
+    val ALL_TODOS = "$BASE_URL/api/todos"
 }
 
 object ApiClient {
