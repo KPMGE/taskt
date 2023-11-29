@@ -1,2 +1,2 @@
 # taskt 
-This is a really simple kotlin android moble app for learning purposes
+Task management app made with Kotlin and Jetpack Compose
