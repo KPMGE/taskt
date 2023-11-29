@@ -1,5 +1,6 @@
 package com.example.taskt.ui.todo_list
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,8 +21,12 @@ class TodoListViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
-            val todos = todoRepository.getTodos()
-            this@TodoListViewModel._todos.value = todos
+            try {
+                val todos = todoRepository.getTodos()
+                this@TodoListViewModel._todos.value = todos
+            } catch (e: Error) {
+                Log.e("ERROR", e.toString())
+            }
         }
     }
     fun addTodo(newTodo: Todo) {
