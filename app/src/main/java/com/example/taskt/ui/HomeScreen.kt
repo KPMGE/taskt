@@ -47,6 +47,7 @@ import com.example.taskt.ui.todo_group.TodoGroupViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.graphics.toArgb
 import com.example.taskt.data.Todo
 import com.example.taskt.ui.todo_list.TodosList
 
@@ -77,14 +78,26 @@ fun HomeScreen(
                     titleContentColor = Color.DarkGray,
                 ),
                 title = {
-                    Text("Today Tasks")
+                    Text(
+                        text = "Today Tasks",
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.DarkGray
+                    )
                 }
             )
         },
         floatingActionButton = {
             AddTodoButton(onClick = {
                 openCreateTodoModal()
-                todosListViewModel.addTodo(Todo(1, "TESTE TODO", false, "sdkjfa"))
+                todosListViewModel.addTodo(
+                    Todo(1,
+                        "TESTE TODO",
+                        false,
+                        "sdkjfa",
+                        "#800020"
+                    ),
+                )
             })
         }
     ) { innerPadding ->

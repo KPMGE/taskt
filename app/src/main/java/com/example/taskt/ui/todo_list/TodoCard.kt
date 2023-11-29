@@ -1,5 +1,6 @@
 package com.example.taskt.ui.todo_list
 
+import android.graphics.Color.parseColor
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -7,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -17,8 +17,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import com.example.taskt.data.Todo
@@ -39,7 +37,7 @@ fun TodoCard(todo: Todo) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            var checked = remember { mutableStateOf(false) }
+            val checked = remember { mutableStateOf(false) }
 
             Row(
                 modifier = Modifier.weight(0.8f),
@@ -62,7 +60,7 @@ fun TodoCard(todo: Todo) {
                 modifier = Modifier
                     .size(10.dp)
                     .clip(CircleShape)
-                    .background(Color.Red)
+                    .background(Color(parseColor(todo.hexColor)))
             )
         }
     }
