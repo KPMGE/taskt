@@ -10,8 +10,5 @@ class TodoRepositoryImpl : TodoRepository {
     override suspend fun addTodo(todo: Todo) {
         Log.d("UNIMPLEMENTED", "addTodo")
     }
-    override suspend fun getTodos(): List<Todo> {
-        val todos = ApiClient.client.get(ApiRoutes.ALL_TODOS).body<List<Todo>>()
-        return todos
-    }
+    override suspend fun getTodos(): List<Todo> = ApiClient.client.get(ApiRoutes.ALL_TODOS).body()
 }
