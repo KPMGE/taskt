@@ -25,10 +25,12 @@ class TodoListViewModel @Inject constructor(
                 val todos = todoRepository.getTodos()
                 this@TodoListViewModel._todos.value = todos
             } catch (e: Error) {
+                this@TodoListViewModel._todos.value = emptyList()
                 Log.e("ERROR", e.toString())
             }
         }
     }
+
     fun addTodo(newTodo: Todo) {
         viewModelScope.launch {
             this@TodoListViewModel.todoRepository.addTodo(newTodo)

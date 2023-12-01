@@ -1,5 +1,7 @@
 package com.example.taskt.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import com.example.taskt.ui.todo_list.TodoListViewModel
 
 import androidx.compose.foundation.layout.Box
@@ -17,7 +19,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.List
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -47,18 +53,21 @@ import com.example.taskt.ui.todo_group.TodoGroupViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.toArgb
 import com.example.taskt.data.Todo
+import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.todo_list.TodosList
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
 fun HomeScreen(
     todosListViewModel: TodoListViewModel = hiltViewModel(),
-    todoGroupsViewModel: TodoGroupViewModel = viewModel()
+    todoGroupsViewModel: TodoGroupViewModel = hiltViewModel(),
+    onNavigateCreateTodo: () -> Unit
 ) {
-    val todos = todosListViewModel.todos.observeAsState().value!!
-    var todoGroups = todoGroupsViewModel.todoGroups.observeAsState().value!!
+    var todos = todosListViewModel.todos.observeAsState().value.orEmpty()
+    var todoGroups = todoGroupsViewModel.todoGroups.observeAsState().value.orEmpty()
 
     var shouldOpenCreateModal = remember { mutableStateOf(false) }
 
@@ -119,13 +128,21 @@ fun HomeScreen(
             )
             TodoGroupList(todoGroups = todoGroups, modifier = Modifier.weight(0.4f))
             if (shouldOpenCreateModal.value) {
-                AddTodoOrGroupModal(onDismissRequest = { closeCreateTodoModal() })
+                AddTodoOrGroupModal(
+                    onDismissRequest = { closeCreateTodoModal() },
+                    onClickCreateGroup = {},
+                    onClickCreateTodo = { onNavigateCreateTodo() }
+                )
             }
         }
     }
 }
 @Composable
-fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
+fun AddTodoOrGroupModal(
+    onDismissRequest: () -> Unit,
+    onClickCreateGroup: () -> Unit,
+    onClickCreateTodo: () -> Unit,
+) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp
     val cardHeight = 150
@@ -149,14 +166,24 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
                     .height(cardHeight.dp)
                     .padding(16.dp),
                 shape = RoundedCornerShape(16.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.White
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 6.dp
+                )
             ) {
                 Column (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
+                        .padding(10.dp)
+                        .background(Color.White)
                 ) {
                     Row(
-                        modifier = Modifier.weight(0.5f),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .fillMaxWidth()
+                            .clickable(onClick = onClickCreateGroup),
                         verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Icon(
@@ -170,14 +197,19 @@ fun AddTodoOrGroupModal(onDismissRequest: () -> Unit) {
                             modifier = Modifier.padding(start = 10.dp)
                         )
                     }
+
                     Divider(
                         modifier = Modifier
                             .fillMaxWidth()
                             .size(1.dp)
                     )
+
                     Row(
-                        modifier = Modifier.weight(0.5f),
                         verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .fillMaxWidth()
+                            .clickable(onClick = onClickCreateTodo)
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Check,

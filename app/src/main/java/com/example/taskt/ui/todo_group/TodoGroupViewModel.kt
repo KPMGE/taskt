@@ -1,5 +1,6 @@
 package com.example.taskt.ui.todo_group
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,13 @@ class TodoGroupViewModel @Inject constructor(
     val todoGroups: LiveData<List<TodoGroup>> = _todoGroups
     init {
         viewModelScope.launch {
-            val todoGroups = todoGroupRepository.getTodoGroups()
-            this@TodoGroupViewModel._todoGroups.value = todoGroups
+            try {
+                val todoGroups = todoGroupRepository.getTodoGroups()
+                this@TodoGroupViewModel._todoGroups.value = todoGroups
+            } catch (e: Exception) {
+                Log.d("ERROR", e.message.toString())
+                this@TodoGroupViewModel._todoGroups.value = emptyList()
+            }
         }
     }
 }
