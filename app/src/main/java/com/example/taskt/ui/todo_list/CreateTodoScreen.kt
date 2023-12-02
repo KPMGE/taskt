@@ -15,9 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccessTime
-import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.DateRange
-import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -33,13 +31,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
+import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.theme.Blue900
+import com.example.taskt.ui.todo_group.TodoGroupList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTodoScreen() {
+    val fakeTodoGroups = listOf(
+        TodoGroup(1, "Group 1", "#0000FF", emptyList()),
+        TodoGroup(2, "Group 2", "#e30b5c", emptyList()),
+        TodoGroup(3, "Group 3", "#fc440f", emptyList()),
+    )
+
     var text by remember { mutableStateOf("") }
     var isDatePickerSelected by remember { mutableStateOf(false) }
     var isTimePickerSelected by remember { mutableStateOf(false) }
@@ -76,7 +81,9 @@ fun CreateTodoScreen() {
         )
 
         Column(
-            modifier = Modifier.weight(weight = 0.5f).background(Color.White)
+            modifier = Modifier
+                .weight(weight = 0.5f)
+                .background(Color.White)
         ) {
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -105,7 +112,7 @@ fun CreateTodoScreen() {
                 Row(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Text(text = "Inbox", color = Blue900)
+                    Text(text = "Group 1", color = Blue900)
                     Spacer(modifier = Modifier.width(3.dp))
                     Box(
                         modifier = Modifier
@@ -115,6 +122,8 @@ fun CreateTodoScreen() {
                     )
                 }
             }
+            
+            TodoGroupList(todoGroups = fakeTodoGroups)
         }
     }
 }

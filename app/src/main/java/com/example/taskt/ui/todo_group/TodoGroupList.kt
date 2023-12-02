@@ -32,7 +32,7 @@ fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
     val configuration = LocalConfiguration.current
     val screenHeight = configuration.screenHeightDp
     val sheetState = rememberModalBottomSheetState()
-    val scope = rememberCoroutineScope()
+    //val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
     var bottomSheetColor by remember { mutableStateOf(Color.White) }
     var bottomSheetTodos by remember { mutableStateOf<List<Todo>>(emptyList()) }
