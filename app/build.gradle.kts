@@ -67,8 +67,10 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:$nav_version")
 
     // material 3
-    implementation("androidx.compose.material3:material3:1.1.2")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
+    val compose_version = "1.1.2"
+    implementation("androidx.compose.material3:material3:$compose_version")
+    implementation("androidx.compose.material3:material3-window-size-class:$compose_version")
+    implementation("androidx.compose.material:material-icons-extended:$compose_version")
 
     //Ktor Dependencies
     val ktor_version = "2.3.0"
