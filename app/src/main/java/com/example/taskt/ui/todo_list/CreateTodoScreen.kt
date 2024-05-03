@@ -16,9 +16,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AccessTime
 import androidx.compose.material.icons.rounded.DateRange
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -31,15 +31,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.taskt.data.TodoGroup
 import com.example.taskt.ui.theme.Blue900
+import com.example.taskt.ui.theme.TasktTheme
 import com.example.taskt.ui.todo_group.TodoGroupList
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateTodoScreen() {
     val fakeTodoGroups = listOf(
+        TodoGroup(1, "Group 1", "#0000FF", emptyList()),
+        TodoGroup(2, "Group 2", "#e30b5c", emptyList()),
+        TodoGroup(3, "Group 3", "#fc440f", emptyList()),
+        TodoGroup(1, "Group 1", "#0000FF", emptyList()),
+        TodoGroup(2, "Group 2", "#e30b5c", emptyList()),
+        TodoGroup(3, "Group 3", "#fc440f", emptyList()),
         TodoGroup(1, "Group 1", "#0000FF", emptyList()),
         TodoGroup(2, "Group 2", "#e30b5c", emptyList()),
         TodoGroup(3, "Group 3", "#fc440f", emptyList()),
@@ -49,81 +56,121 @@ fun CreateTodoScreen() {
     var isDatePickerSelected by remember { mutableStateOf(false) }
     var isTimePickerSelected by remember { mutableStateOf(false) }
 
-    Column (
+    Scaffold(
+        topBar = { TopBar() },
+        bottomBar = {
+            BottomBar(
+                todoGroups = fakeTodoGroups,
+                isDatePickerSelected = isDatePickerSelected,
+                isTimePickerSelected = isTimePickerSelected,
+                onDatePickerClick = { isDatePickerSelected = !isDatePickerSelected },
+                onTimePickerClick = { isTimePickerSelected = !isTimePickerSelected }
+            )
+
+        }
+    ) { padding ->
+        Column (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+                .padding(10.dp),
+        ) {
+            TodoInput(text = text, onValueChange = { text = it })
+        }
+    }
+}
+
+@Composable
+private fun TopBar() {
+    Row(
         modifier = Modifier
-            .fillMaxSize()
-            .padding(10.dp),
+            .padding(10.dp)
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(text = "cancel", color = Color(0xFFC70039))
+        Text(text = "done", color = Color(0xFF0096FF))
+    }
+}
+
+@Composable
+private fun TodoInput(text: String, onValueChange: (String) -> Unit) {
+    TextField(
+        value = text,
+        onValueChange = onValueChange,
+        label = { Text(text = "I need to...") },
+        modifier = Modifier.fillMaxWidth(),
+        colors = TextFieldDefaults.colors(
+            focusedTextColor = Color.DarkGray,
+            disabledTextColor = Color.Transparent,
+            focusedContainerColor = Color.White,
+            unfocusedContainerColor = Color.White,
+            disabledContainerColor = Color.White,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent,
+        )
+    )
+}
+
+@Composable
+private fun BottomBar(
+    modifier: Modifier = Modifier,
+    todoGroups: List<TodoGroup>,
+    isDatePickerSelected: Boolean,
+    isTimePickerSelected: Boolean,
+    onDatePickerClick: () -> Unit,
+    onTimePickerClick: () -> Unit,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth().height(350.dp)
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "cancel", color = Color(0xFFC70039))
-            Text(text = "done", color = Color(0xFF0096FF))
-        }
-
-        TextField(
-            value = text,
-            onValueChange = { text = it },
-            label = { Text(text = "I need to...") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .weight(0.5f)
-                .height(100.dp),
-            colors = TextFieldDefaults.textFieldColors(
-                focusedTextColor = Color.DarkGray,
-                disabledTextColor = Color.Transparent,
-                containerColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent
-            )
-        )
-
-        Column(
-            modifier = Modifier
-                .weight(weight = 0.5f)
-                .background(Color.White)
+            modifier = Modifier.fillMaxWidth().padding(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    IconButton(onClick = { isDatePickerSelected = !isDatePickerSelected }) {
-                        Icon(
-                            Icons.Rounded.DateRange,
-                            contentDescription = "date picker icon",
-                            tint = if (isDatePickerSelected) Blue900 else Color.LightGray
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(30.dp))
-                    IconButton(onClick = { isTimePickerSelected = !isTimePickerSelected }) {
-                        Icon(
-                            Icons.Rounded.AccessTime,
-                            contentDescription = "time pick icon",
-                            tint = if (isTimePickerSelected) Blue900 else Color.LightGray
-                        )
-                    }
+                IconButton(onClick = onDatePickerClick) {
+                    Icon(
+                        Icons.Rounded.DateRange,
+                        contentDescription = "date picker icon",
+                        tint = if (isDatePickerSelected) Blue900 else Color.LightGray
+                    )
                 }
-
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(text = "Group 1", color = Blue900)
-                    Spacer(modifier = Modifier.width(3.dp))
-                    Box(
-                        modifier = Modifier
-                            .size(10.dp)
-                            .clip(CircleShape)
-                            .background(Color(android.graphics.Color.parseColor("#0000FF")))
+                Spacer(modifier = Modifier.width(30.dp))
+                IconButton(onClick = onTimePickerClick) {
+                    Icon(
+                        Icons.Rounded.AccessTime,
+                        contentDescription = "time pick icon",
+                        tint = if (isTimePickerSelected) Blue900 else Color.LightGray
                     )
                 }
             }
-            
-            TodoGroupList(todoGroups = fakeTodoGroups)
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Group 1", color = Blue900)
+                Spacer(modifier = Modifier.width(3.dp))
+                Box(
+                    modifier = Modifier
+                        .size(10.dp)
+                        .clip(CircleShape)
+                        .background(Color(android.graphics.Color.parseColor("#0000FF")))
+                )
+            }
         }
+        TodoGroupList(todoGroups)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun CreateTodoScreenPreview() {
+    TasktTheme {
+        CreateTodoScreen()
     }
 }
