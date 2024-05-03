@@ -16,7 +16,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +23,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import com.example.taskt.data.Todo
 import com.example.taskt.data.TodoGroup
-import com.example.taskt.ui.todo_list.TodosList
+import com.example.taskt.ui.todo_list.TodoList
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +45,7 @@ fun TodoGroupList(todoGroups: List<TodoGroup>, modifier: Modifier = Modifier) {
             modifier = Modifier.height(screenHeight.dp),
             containerColor = bottomSheetColor
         ) {
-            TodosList(todos = bottomSheetTodos)
+            TodoList(todos = bottomSheetTodos)
         }
     }
 

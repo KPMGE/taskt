@@ -15,7 +15,7 @@ import com.example.taskt.data.Todo
 import com.example.taskt.ui.theme.TasktTheme
 
 @Composable
-fun TodosList(todos: List<Todo>, modifier: Modifier = Modifier) {
+fun TodoList(todos: List<Todo>, modifier: Modifier = Modifier) {
     LazyColumn(
         modifier = Modifier
             .padding(10.dp)
@@ -61,6 +61,6 @@ private fun TodoListPreview() {
                 hexColor = "#0000FF",
             )
         )
-        TodosList(todos = todos)
+        TodoList(todos = todos)
     }
 }

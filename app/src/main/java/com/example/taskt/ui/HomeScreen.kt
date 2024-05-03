@@ -19,11 +19,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.List
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -46,18 +43,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.taskt.ui.theme.Blue900
 import com.example.taskt.ui.todo_group.TodoGroupList
 import com.example.taskt.ui.todo_group.TodoGroupViewModel
 import androidx.hilt.navigation.compose.hiltViewModel
 
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.ui.graphics.toArgb
 import com.example.taskt.data.Todo
-import com.example.taskt.data.TodoGroup
-import com.example.taskt.ui.todo_list.TodosList
+import com.example.taskt.ui.todo_list.TodoList
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -115,7 +107,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(innerPadding)
         ) {
-            TodosList(todos = todos, modifier = Modifier.weight(0.6f))
+            TodoList(todos = todos, modifier = Modifier.weight(0.6f))
             Divider(
                 modifier = Modifier.size(height = 5.dp, width = 0.dp)
             )
